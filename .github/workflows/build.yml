@@ -1,0 +1,50 @@
+name: MacOS_ARM_Meson_Issue
+on: [push]
+
+jobs:
+    test:
+        name: Test latest meson
+        runs-on: macos-latest
+        steps:
+            - uses: actions/checkout@v2
+              with:
+                  submodules: true
+
+            - name: Install D compiler
+              uses: dlang-community/setup-dlang@v1
+              with:
+                  compiler: ldc-latest
+                  
+            - uses: actions/setup-python@v1
+            - run: |
+                pip install meson
+                pip install ninja
+
+            - name: Build for MacOS x86_64
+              run: meson build && ninja -C build
+              
+            - name: Build for for MacOS arm64
+              run: meson setup buildarm --cross-file cross_file_macos_arm64.txt && ninja -C buildarm
+    testold:
+        name: Test meson 0.53.2
+        runs-on: macos-latest
+        steps:
+            - uses: actions/checkout@v2
+              with:
+                  submodules: true
+
+            - name: Install D compiler
+              uses: dlang-community/setup-dlang@v1
+              with:
+                  compiler: ldc-latest
+                  
+            - uses: actions/setup-python@v1
+            - run: |
+                pip install meson==0.53.2
+                pip install ninja
+
+            - name: Build for MacOS x86_64
+              run: meson build && ninja -C build
+              
+            - name: Build for for MacOS arm64
+              run: meson setup buildarm --cross-file cross_file_macos_arm64.txt && ninja -C buildarm

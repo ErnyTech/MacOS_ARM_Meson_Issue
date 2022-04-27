@@ -1,0 +1,14 @@
+[binaries]
+c = 'cc'
+strip = 'strip'
+d = 'ldc2'
+
+[built-in options]
+d_args = ['--mtriple=arm64-apple-macos']
+d_link_args = ['--mtriple=arm64-apple-macos']
+
+[host_machine]
+system = 'osx'
+cpu_family = 'aarch64'
+cpu = 'aarch64'
+endian = 'little'
